@@ -1,0 +1,36 @@
+{
+  "name": "cohort-4.3-backend-node-express-mongodb-wkdays",
+  "version": "1.0.0",
+  "description": "Learning how to build restfulapi with nodejs, express, mongodb",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "node --watch app.js"
+  },
+  "keywords": [
+    "nodejs",
+    "expressjs",
+    "mongodb",
+    "jwt",
+    "bcrypt",
+    "morgan",
+    "cors",
+    "dotenv",
+    "git",
+    "command",
+    "line",
+    "tools"
+  ],
+  "author": "Ugochukwu David Ikechukwu",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.17.2",
+    "morgan": "^1.10.1"
+  }
+}
