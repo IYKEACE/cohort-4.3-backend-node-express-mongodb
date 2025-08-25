@@ -72,7 +72,7 @@ export const loginUser = async (req, res) => {
     );
     // omit password
     const { password, ...otherUserData } = user._doc;
-    return res.status(200).json({
+    return res.status(200).json({ 
       message: "User successfully logged in",
       otherUserData,
       token,
@@ -85,5 +85,6 @@ export const loginUser = async (req, res) => {
 };
 
 // forgotpassword
+
 // email verification
 // otp
