@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 
-
 // database connection
 export const connectToDatabase = async () => {
   try {
