@@ -33,6 +33,15 @@ const UserSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    profileImage: {
+      type: String,
+      default:
+        "https://cdn.pixabay.com/photo/2020/06/29/20/31/man-5354308_1280.png",
+    },
+    referralCode: {
+      type: String,
+      default: "",
+    },
   },
   {
     timestamps: true,
