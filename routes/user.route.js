@@ -1,5 +1,5 @@
 import express from "express";
-import { forgetPassword, getAllUsers, getSingleUser, loginUser, registerUser, updateUser } from "../controllers/user.controller.js";
+import { deleteUser, forgetPassword, getAllUsers, getSingleUser, loginUser, registerUser, updateUser } from "../controllers/user.controller.js";
 
 // initialize router
 const router = express.Router();
@@ -15,10 +15,12 @@ router.get("/users", getAllUsers)
 // single user endpoint
 router.get("/:id", getSingleUser);
 
-// update user info
+// Update User information
 router.put("/:id", updateUser);
 
+//delete user
+router.delete("/:id", deleteUser)
 //forgot password endpoint
 router.post("/forgetpassword", forgetPassword)
-
+ 
 export default router;

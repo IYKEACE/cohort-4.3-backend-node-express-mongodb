@@ -132,37 +132,59 @@ export const getSingleUser = async (req, res) => {
 // update users
 export const updateUser = async (req, res) => {
   // get user id to update
-  const { id } = req.params;
-  const { firstname, lastname, email, password, role, address } = req.body;
-
   try {
-    // find user by id 
+    const { id } = req.params;
+    const { firstname, lastname, email, password, role, address } = req.body; // find user by id
     const user = await User.findById(id);
     if (!user) {
       return res.status(404).json({
         message: "User not found",
       });
     }
-    // hash password before saving
-    const salt = await bcrypt.genSalt(12);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    // Prepare updated fields
+    let updatedFields = {
+      firstname: firstname || user.firstname,
+      lastname: lastname || user.lastname,
+      email: email || user.email,
+      role: role || user.role,
+      address: address || user.address,
+    };
+
+    // Only hash and update password if provided
+    if (password) {
+      const salt = await bcrypt.genSalt(12);
+      updatedFields.password = await bcrypt.hash(password, salt);
+    } else {
+      updatedFields.password = user.password;
+    }
 
     // update user details
-    const userToUpdate = await User.findByIdAndUpdate(
-      id,
-      {
-        firstname: firstname || user.firstname,
-        lastname: lastname || user.lastname,
-        email: email || user.email,
-        password: hashedPassword || user.password,
-        role: role || user.role,
-        address: address || user.address,
-      },
-      { new: true }
-    );
+    const userToUpdate = await User.findByIdAndUpdate(id, updatedFields, {
+      new: true,
+    });
     return res.status(200).json({
       message: `${userToUpdate.firstname} updated successfully`,
       userToUpdate,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      error: error.message,
+    });
+  }
+};
+
+// delete user
+export const deleteUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findByIdAndDelete(id);
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+    return res.status(200).json({
+      message: `${user.firstname} deleted successfully`,
     });
   } catch (error) {
     return res.status(500).json({

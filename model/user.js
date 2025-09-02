@@ -26,8 +26,9 @@ const UserSchema = mongoose.Schema(
       required: true,
     },
     role: {
-      type: Array,
-      default: ["user"],
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
     },
     address: {
       type: String,
@@ -42,7 +43,16 @@ const UserSchema = mongoose.Schema(
       type: String,
       default: "",
     },
+    otp: {
+      type: String,
+      default: null,
+    },
+    otpExpire: {
+      type: Date,
+      default: null,
+    },
   },
+
   {
     timestamps: true,
   }
