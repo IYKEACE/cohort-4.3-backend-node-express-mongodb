@@ -20,7 +20,6 @@ const port = process.env.PORT || 8000;
 // CORS
 app.use(cors());
 
-
 // connection
 connectToDatabase();
 
