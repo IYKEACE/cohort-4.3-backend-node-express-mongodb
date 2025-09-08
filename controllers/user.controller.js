@@ -132,46 +132,43 @@ export const getSingleUser = async (req, res) => {
 // update users
 export const updateUser = async (req, res) => {
   // get user id to update
+  const { id } = req.params;
+  const { firstname, lastname, email, password, role, address } = req.body;
+
   try {
-    const { id } = req.params;
-    const { firstname, lastname, email, password, role, address } = req.body; // find user by id
+    //find user by id
     const user = await User.findById(id);
-    if (!user) {
+    if(!user) {
       return res.status(404).json({
-        message: "User not found",
+        message: "User not found"
       });
     }
-    // Prepare updated fields
-    let updatedFields = {
-      firstname: firstname || user.firstname,
-      lastname: lastname || user.lastname,
-      email: email || user.email,
-      role: role || user.role,
-      address: address || user.address,
-    };
+    //hash password before saving
+    const salt = await bcrypt.genSalt(12);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Only hash and update password if provided
-    if (password) {
-      const salt = await bcrypt.genSalt(12);
-      updatedFields.password = await bcrypt.hash(password, salt);
-    } else {
-      updatedFields.password = user.password;
-    }
-
-    // update user details
-    const userToUpdate = await User.findByIdAndUpdate(id, updatedFields, {
-      new: true,
-    });
+    //update user details
+    const userToUpdate = await User.findByIdAndUpdate(
+      id,
+      {
+        firstname: firstname || user.firstname,
+        lastname: lastname || user.lastname,
+        email: email || user.email,
+        password: hashedPassword || user.password,
+      },
+      {new: true}
+    );
     return res.status(200).json({
-      message: `${userToUpdate.firstname} updated successfully`,
-      userToUpdate,
-    });
+      message: `${userToUpdate.firstname} Updated successfully`,
+      userToUpdate
+    })
   } catch (error) {
     return res.status(500).json({
       error: error.message,
-    });
+    })
   }
 };
+
 
 // delete user
 export const deleteUser = async (req, res) => {
