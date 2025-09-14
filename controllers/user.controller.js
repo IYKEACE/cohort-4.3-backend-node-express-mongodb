@@ -155,6 +155,8 @@ export const updateUser = async (req, res) => {
         lastname: lastname || user.lastname,
         email: email || user.email,
         password: hashedPassword || user.password,
+        role: role || user.role,
+        address: address || user.address
       },
       {new: true}
     );
