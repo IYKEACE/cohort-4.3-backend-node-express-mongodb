@@ -210,7 +210,7 @@ export const forgetPassword = async (req, res) => {
 
     // 3. Set OTP expiration (10 minutes)
     user.otp = otp;
-    user.otpExpires = Date.now() + 10 * 60 * 1000;
+    user.otpExpire = Date.now() + 10 * 60 * 1000;
     await user.save();
 
     // 4. Send OTP email
